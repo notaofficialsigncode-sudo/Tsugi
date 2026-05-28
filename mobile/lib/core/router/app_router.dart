@@ -42,6 +42,11 @@ GoRouter appRouter(AppRouterRef ref) {
         path: '/manga/:id',
         builder: (context, state) => MangaDetailScreen(mangaId: state.pathParameters['id']!),
       ),
+      // ── FIXED: Added Search Route to handle magnifying glass click ──
+      GoRoute(
+        path: '/search',
+        builder: (_, __) => const SearchScreen(),
+      ),
       GoRoute(
         path: '/settings',
         builder: (_, __) => const SettingsScreen(),
@@ -60,6 +65,7 @@ class AppRoutes {
   static const updates      = '/updates';
   static const history      = '/history';
   static const browse       = '/browse';
+  static const search       = '/search'; // Added route string mapping
   static const settings     = '/settings';
   static const trackers     = '/settings/trackers';
   static const notifications= '/settings/notifications';

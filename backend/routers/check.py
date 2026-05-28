@@ -18,7 +18,9 @@ async def check_single(body: dict, authorization: Optional[str] = Header(default
     uid = _uid(authorization)
     last_read_val = float(body.get("last_read") or 0)
     result = await get_checker().check(title=body["title"], mdx_id=body.get("mdx_id"), last_read=last_read_val)
-    get_supabase().table("manga_list").update({
+
+    # FIXED: Capture the updated row returned directly from Supabase
+    response = get_supabase().table("manga_list").update({
         "latest_chapter": result.latest_chapter,
         "latest_source": result.latest_source,
         "has_update": result.latest_chapter is not None and result.latest_chapter > last_read_val,
@@ -29,7 +31,12 @@ async def check_single(body: dict, authorization: Optional[str] = Header(default
         "gap_alt_url": result.gap_alt_url,
         "mdx_id": result.mdx_id,
     }).eq("id", body["manga_id"]).eq("user_id", uid).execute()
-    return {"latest_chapter": result.latest_chapter, "has_gap": result.has_gap, "gap_from": result.gap_from, "gap_to": result.gap_to}
+
+    # Return the full updated manga record back to the mobile client
+    if response.data:
+        return response.data[0]
+
+    raise HTTPException(status_code=500, detail="Failed to retrieve updated manga record")
 
 @router.post("/all")
 async def check_all(authorization: Optional[str] = Header(default=None)):

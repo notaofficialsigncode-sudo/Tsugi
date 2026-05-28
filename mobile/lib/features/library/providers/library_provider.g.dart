@@ -22,7 +22,7 @@ final libraryStatsProvider = AutoDisposeProvider<LibraryStats>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef LibraryStatsRef = AutoDisposeProviderRef<LibraryStats>;
-String _$libraryHash() => r'06c6bf0d514adf3f544846edf09d06b1caf97c1e';
+String _$libraryHash() => r'd6e3b9a1cc6f503dce42ef19a3f07b49e50dc0b7';
 
 /// See also [Library].
 @ProviderFor(Library)

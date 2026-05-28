@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'models.g.dart';
 
 // ── Manga ──────────────────────────────────────────────────────────
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Manga {
   final String id;
   final String title;
@@ -17,13 +17,21 @@ class Manga {
   final String source;          // anilist | kitsu | mangaupdates | manual
   final String sourceId;
   final String? mdxId;          // MangaDex UUID
+
+  @JsonKey(name: 'last_read')
   final double lastReadChapter;
+
   final double? latestChapter;
   final String? latestSource;   // where the latest chapter was found
   final bool hasUpdate;
   final bool hasGap;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final GapInfo? gap;
+
   final DateTime? checkedAt;
+
+  @JsonKey(name: 'notify')
   final bool notifyEnabled;
 
   const Manga({
@@ -101,11 +109,11 @@ class Manga {
 }
 
 // ── Gap Info ───────────────────────────────────────────────────────
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class GapInfo {
   final double fromChapter;
   final double toChapter;
-  final String? altSource;      // where the missing chapters were found
+  final String? altSource;
   final String? altSourceUrl;
 
   const GapInfo({
@@ -122,18 +130,18 @@ class GapInfo {
 }
 
 // ── Chapter ────────────────────────────────────────────────────────
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Chapter {
   final String id;
   final String mangaId;
   final double number;
   final String? name;
-  final String source;          // mangadex | toonily | asurascans | etc.
+  final String source;
   final String sourceUrl;
   final String? scanlationGroup;
   final DateTime publishedAt;
   final bool isRead;
-  final bool isGap;             // true = this is a placeholder for missing chapters
+  final bool isGap;
 
   const Chapter({
     required this.id,
@@ -153,9 +161,9 @@ class Chapter {
 }
 
 // ── Tracker Source ─────────────────────────────────────────────────
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class TrackerAuth {
-  final String source;         // anilist | kitsu | mangaupdates | shikimori | bangumi
+  final String source;
   final String? username;
   final String? accessToken;
   final DateTime? lastSynced;
@@ -185,7 +193,7 @@ class TrackerAuth {
 }
 
 // ── Update Feed Item ───────────────────────────────────────────────
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class UpdateItem {
   final String mangaId;
   final String mangaTitle;
@@ -196,6 +204,8 @@ class UpdateItem {
   final String? scanlationGroup;
   final DateTime releasedAt;
   final bool isGap;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final GapInfo? gapInfo;
 
   const UpdateItem({

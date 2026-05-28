@@ -9,140 +9,132 @@ part of 'models.dart';
 Manga _$MangaFromJson(Map<String, dynamic> json) => Manga(
       id: json['id'] as String,
       title: json['title'] as String,
-      coverUrl: json['coverUrl'] as String?,
+      coverUrl: json['cover_url'] as String?,
       author: json['author'] as String?,
       description: json['description'] as String?,
-      pubStatus: json['pubStatus'] as String,
-      contentType: json['contentType'] as String,
+      pubStatus: json['pub_status'] as String,
+      contentType: json['content_type'] as String,
       genres:
           (json['genres'] as List<dynamic>).map((e) => e as String).toList(),
-      totalChapters: (json['totalChapters'] as num?)?.toInt(),
+      totalChapters: (json['total_chapters'] as num?)?.toInt(),
       source: json['source'] as String,
-      sourceId: json['sourceId'] as String,
-      mdxId: json['mdxId'] as String?,
-      lastReadChapter: (json['lastReadChapter'] as num).toDouble(),
-      latestChapter: (json['latestChapter'] as num?)?.toDouble(),
-      latestSource: json['latestSource'] as String?,
-      hasUpdate: json['hasUpdate'] as bool,
-      hasGap: json['hasGap'] as bool,
-      gap: json['gap'] == null
+      sourceId: json['source_id'] as String,
+      mdxId: json['mdx_id'] as String?,
+      lastReadChapter: (json['last_read'] as num).toDouble(),
+      latestChapter: (json['latest_chapter'] as num?)?.toDouble(),
+      latestSource: json['latest_source'] as String?,
+      hasUpdate: json['has_update'] as bool,
+      hasGap: json['has_gap'] as bool,
+      checkedAt: json['checked_at'] == null
           ? null
-          : GapInfo.fromJson(json['gap'] as Map<String, dynamic>),
-      checkedAt: json['checkedAt'] == null
-          ? null
-          : DateTime.parse(json['checkedAt'] as String),
-      notifyEnabled: json['notifyEnabled'] as bool,
+          : DateTime.parse(json['checked_at'] as String),
+      notifyEnabled: json['notify'] as bool,
     );
 
 Map<String, dynamic> _$MangaToJson(Manga instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'coverUrl': instance.coverUrl,
+      'cover_url': instance.coverUrl,
       'author': instance.author,
       'description': instance.description,
-      'pubStatus': instance.pubStatus,
-      'contentType': instance.contentType,
+      'pub_status': instance.pubStatus,
+      'content_type': instance.contentType,
       'genres': instance.genres,
-      'totalChapters': instance.totalChapters,
+      'total_chapters': instance.totalChapters,
       'source': instance.source,
-      'sourceId': instance.sourceId,
-      'mdxId': instance.mdxId,
-      'lastReadChapter': instance.lastReadChapter,
-      'latestChapter': instance.latestChapter,
-      'latestSource': instance.latestSource,
-      'hasUpdate': instance.hasUpdate,
-      'hasGap': instance.hasGap,
-      'gap': instance.gap,
-      'checkedAt': instance.checkedAt?.toIso8601String(),
-      'notifyEnabled': instance.notifyEnabled,
+      'source_id': instance.sourceId,
+      'mdx_id': instance.mdxId,
+      'last_read': instance.lastReadChapter,
+      'latest_chapter': instance.latestChapter,
+      'latest_source': instance.latestSource,
+      'has_update': instance.hasUpdate,
+      'has_gap': instance.hasGap,
+      'checked_at': instance.checkedAt?.toIso8601String(),
+      'notify': instance.notifyEnabled,
     };
 
 GapInfo _$GapInfoFromJson(Map<String, dynamic> json) => GapInfo(
-      fromChapter: (json['fromChapter'] as num).toDouble(),
-      toChapter: (json['toChapter'] as num).toDouble(),
-      altSource: json['altSource'] as String?,
-      altSourceUrl: json['altSourceUrl'] as String?,
+      fromChapter: (json['from_chapter'] as num).toDouble(),
+      toChapter: (json['to_chapter'] as num).toDouble(),
+      altSource: json['alt_source'] as String?,
+      altSourceUrl: json['alt_source_url'] as String?,
     );
 
 Map<String, dynamic> _$GapInfoToJson(GapInfo instance) => <String, dynamic>{
-      'fromChapter': instance.fromChapter,
-      'toChapter': instance.toChapter,
-      'altSource': instance.altSource,
-      'altSourceUrl': instance.altSourceUrl,
+      'from_chapter': instance.fromChapter,
+      'to_chapter': instance.toChapter,
+      'alt_source': instance.altSource,
+      'alt_source_url': instance.altSourceUrl,
     };
 
 Chapter _$ChapterFromJson(Map<String, dynamic> json) => Chapter(
       id: json['id'] as String,
-      mangaId: json['mangaId'] as String,
+      mangaId: json['manga_id'] as String,
       number: (json['number'] as num).toDouble(),
       name: json['name'] as String?,
       source: json['source'] as String,
-      sourceUrl: json['sourceUrl'] as String,
-      scanlationGroup: json['scanlationGroup'] as String?,
-      publishedAt: DateTime.parse(json['publishedAt'] as String),
-      isRead: json['isRead'] as bool,
-      isGap: json['isGap'] as bool,
+      sourceUrl: json['source_url'] as String,
+      scanlationGroup: json['scanlation_group'] as String?,
+      publishedAt: DateTime.parse(json['published_at'] as String),
+      isRead: json['is_read'] as bool,
+      isGap: json['is_gap'] as bool,
     );
 
 Map<String, dynamic> _$ChapterToJson(Chapter instance) => <String, dynamic>{
       'id': instance.id,
-      'mangaId': instance.mangaId,
+      'manga_id': instance.mangaId,
       'number': instance.number,
       'name': instance.name,
       'source': instance.source,
-      'sourceUrl': instance.sourceUrl,
-      'scanlationGroup': instance.scanlationGroup,
-      'publishedAt': instance.publishedAt.toIso8601String(),
-      'isRead': instance.isRead,
-      'isGap': instance.isGap,
+      'source_url': instance.sourceUrl,
+      'scanlation_group': instance.scanlationGroup,
+      'published_at': instance.publishedAt.toIso8601String(),
+      'is_read': instance.isRead,
+      'is_gap': instance.isGap,
     };
 
 TrackerAuth _$TrackerAuthFromJson(Map<String, dynamic> json) => TrackerAuth(
       source: json['source'] as String,
       username: json['username'] as String?,
-      accessToken: json['accessToken'] as String?,
-      lastSynced: json['lastSynced'] == null
+      accessToken: json['access_token'] as String?,
+      lastSynced: json['last_synced'] == null
           ? null
-          : DateTime.parse(json['lastSynced'] as String),
-      isConnected: json['isConnected'] as bool,
-      syncedCount: (json['syncedCount'] as num).toInt(),
+          : DateTime.parse(json['last_synced'] as String),
+      isConnected: json['is_connected'] as bool,
+      syncedCount: (json['synced_count'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TrackerAuthToJson(TrackerAuth instance) =>
     <String, dynamic>{
       'source': instance.source,
       'username': instance.username,
-      'accessToken': instance.accessToken,
-      'lastSynced': instance.lastSynced?.toIso8601String(),
-      'isConnected': instance.isConnected,
-      'syncedCount': instance.syncedCount,
+      'access_token': instance.accessToken,
+      'last_synced': instance.lastSynced?.toIso8601String(),
+      'is_connected': instance.isConnected,
+      'synced_count': instance.syncedCount,
     };
 
 UpdateItem _$UpdateItemFromJson(Map<String, dynamic> json) => UpdateItem(
-      mangaId: json['mangaId'] as String,
-      mangaTitle: json['mangaTitle'] as String,
-      coverUrl: json['coverUrl'] as String?,
-      chapterNumber: (json['chapterNumber'] as num).toDouble(),
-      chapterName: json['chapterName'] as String?,
+      mangaId: json['manga_id'] as String,
+      mangaTitle: json['manga_title'] as String,
+      coverUrl: json['cover_url'] as String?,
+      chapterNumber: (json['chapter_number'] as num).toDouble(),
+      chapterName: json['chapter_name'] as String?,
       source: json['source'] as String,
-      scanlationGroup: json['scanlationGroup'] as String?,
-      releasedAt: DateTime.parse(json['releasedAt'] as String),
-      isGap: json['isGap'] as bool,
-      gapInfo: json['gapInfo'] == null
-          ? null
-          : GapInfo.fromJson(json['gapInfo'] as Map<String, dynamic>),
+      scanlationGroup: json['scanlation_group'] as String?,
+      releasedAt: DateTime.parse(json['released_at'] as String),
+      isGap: json['is_gap'] as bool,
     );
 
 Map<String, dynamic> _$UpdateItemToJson(UpdateItem instance) =>
     <String, dynamic>{
-      'mangaId': instance.mangaId,
-      'mangaTitle': instance.mangaTitle,
-      'coverUrl': instance.coverUrl,
-      'chapterNumber': instance.chapterNumber,
-      'chapterName': instance.chapterName,
+      'manga_id': instance.mangaId,
+      'manga_title': instance.mangaTitle,
+      'cover_url': instance.coverUrl,
+      'chapter_number': instance.chapterNumber,
+      'chapter_name': instance.chapterName,
       'source': instance.source,
-      'scanlationGroup': instance.scanlationGroup,
-      'releasedAt': instance.releasedAt.toIso8601String(),
-      'isGap': instance.isGap,
-      'gapInfo': instance.gapInfo,
+      'scanlation_group': instance.scanlationGroup,
+      'released_at': instance.releasedAt.toIso8601String(),
+      'is_gap': instance.isGap,
     };

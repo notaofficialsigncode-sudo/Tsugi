@@ -13,10 +13,11 @@ class Library extends _$Library {
   @override
   Future<List<Manga>> build() async {
     // load from local DB first (offline-first)
-    final local = await ref.read(localDbServiceProvider).getAllManga();
+    // FIXED: Changed ref.read to ref.watch so the UI actually reacts to changes!
+    final local = await ref.watch(localDbServiceProvider).getAllManga();
     if (local.isNotEmpty) return local;
     // then fetch from API
-    return ref.read(apiServiceProvider).getLibrary();
+    return ref.watch(apiServiceProvider).getLibrary();
   }
 
   Future<void> checkAllUpdates() async {
@@ -32,10 +33,15 @@ class Library extends _$Library {
     }
   }
 
+  // FIXED: Looks up the full Manga object so it can send the title to the backend
   Future<void> checkSingle(String mangaId) async {
-    final api = ref.read(apiServiceProvider);
-    final updated = await api.checkManga(mangaId);
     final current = state.valueOrNull ?? [];
+    // Find the actual manga data from our state
+    final mangaToCheck = current.firstWhere((m) => m.id == mangaId);
+
+    final api = ref.read(apiServiceProvider);
+    final updated = await api.checkManga(mangaToCheck);
+
     final newList = current.map((m) => m.id == mangaId ? updated : m).toList();
     await ref.read(localDbServiceProvider).upsertManga(updated);
     state = AsyncData(newList);

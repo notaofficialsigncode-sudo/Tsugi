@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/models.dart';
 
@@ -20,8 +21,8 @@ class ApiService {
   ApiService() {
     _dio = Dio(BaseOptions(
       baseUrl: _baseUrl,
-      connectTimeout: const Duration(seconds: 12),
-      receiveTimeout: const Duration(seconds: 20),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
       headers: {'Content-Type': 'application/json'},
     ));
 
@@ -34,15 +35,18 @@ class ApiService {
     // auth token interceptor
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // TODO: attach supabase session token
+        final session = Supabase.instance.client.auth.currentSession;
+        if (session != null) {
+          options.headers['Authorization'] = 'Bearer ${session.accessToken}';
+        }
         handler.next(options);
       },
     ));
   }
 
-  // library
+  // library (added trailing slash to match FastAPI exactly)
   Future<List<Manga>> getLibrary() async {
-    final r = await _dio.get('/manga');
+    final r = await _dio.get('/manga/');
     return (r.data as List).map((e) => Manga.fromJson(e)).toList();
   }
 
@@ -52,8 +56,14 @@ class ApiService {
     return (r.data['manga'] as List).map((e) => Manga.fromJson(e)).toList();
   }
 
-  Future<Manga> checkManga(String mangaId) async {
-    final r = await _dio.post('/check/single', data: {'manga_id': mangaId});
+  // check single manga - Receives the complete row back safely
+  Future<Manga> checkManga(Manga manga) async {
+    final r = await _dio.post('/check/single', data: {
+      'manga_id': manga.id,
+      'title': manga.title,
+      'mdx_id': manga.mdxId,
+      'last_read': manga.lastReadChapter,
+    });
     return Manga.fromJson(r.data);
   }
 

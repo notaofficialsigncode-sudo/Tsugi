@@ -26,8 +26,7 @@ Future<void> main() async {
 
   // firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService.init();
-
+  // await NotificationService.init();
   runApp(const ProviderScope(child: TsugiApp()));
 }
 
