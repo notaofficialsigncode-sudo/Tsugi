@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from routers import auth, manga, sync, check, notifications
 from db.supabase import init_supabase
-from worker.celery_app import celery_app
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
