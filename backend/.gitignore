@@ -73,3 +73,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+
+backend/firebase-credentials.json
