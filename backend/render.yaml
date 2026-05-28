@@ -41,9 +41,9 @@ services:
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: celery -A worker.tasks beat --loglevel=info
-
   # Redis
   - type: redis
     name: tsugi-redis
     plan: free
+    ipAllowList: []
     maxmemoryPolicy: allkeys-lru
