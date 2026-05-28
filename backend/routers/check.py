@@ -16,11 +16,12 @@ def _uid(authorization: Optional[str]) -> str:
 @router.post("/single")
 async def check_single(body: dict, authorization: Optional[str] = Header(default=None)):
     uid = _uid(authorization)
-    result = await get_checker().check(title=body["title"], mdx_id=body.get("mdx_id"), last_read=float(body.get("last_read", 0)))
+    last_read_val = float(body.get("last_read") or 0)
+    result = await get_checker().check(title=body["title"], mdx_id=body.get("mdx_id"), last_read=last_read_val)
     get_supabase().table("manga_list").update({
         "latest_chapter": result.latest_chapter,
         "latest_source": result.latest_source,
-        "has_update": result.latest_chapter is not None and result.latest_chapter > float(body.get("last_read", 0)),
+        "has_update": result.latest_chapter is not None and result.latest_chapter > last_read_val,
         "has_gap": result.has_gap,
         "gap_from": result.gap_from,
         "gap_to": result.gap_to,
@@ -38,10 +39,11 @@ async def check_all(authorization: Optional[str] = Header(default=None)):
     checker = get_checker()
     for row in rows:
         try:
-            result = await checker.check(title=row["title"], mdx_id=row.get("mdx_id"), last_read=float(row.get("last_read", 0)))
+            last_read_val = float(row.get("last_read") or 0)
+            result = await checker.check(title=row["title"], mdx_id=row.get("mdx_id"), last_read=last_read_val)
             sb.table("manga_list").update({
                 "latest_chapter": result.latest_chapter, "latest_source": result.latest_source,
-                "has_update": result.latest_chapter is not None and result.latest_chapter > float(row.get("last_read", 0)),
+                "has_update": result.latest_chapter is not None and result.latest_chapter > last_read_val,
                 "has_gap": result.has_gap, "gap_from": result.gap_from, "gap_to": result.gap_to,
                 "gap_alt_source": result.gap_alt_source, "gap_alt_url": result.gap_alt_url, "mdx_id": result.mdx_id,
             }).eq("id", row["id"]).eq("user_id", uid).execute()

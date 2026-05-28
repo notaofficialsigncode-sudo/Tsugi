@@ -12,7 +12,7 @@ class LoginRequest(BaseModel):
 async def login(body: LoginRequest):
     try:
         res = get_supabase().auth.sign_in_with_password({"email": body.email, "password": body.password})
-        return {"access_token": res.session.access_token, "user": res.user.email}
+        return {"access_token": res.session.access_token if res.session else None, "user": res.user.email}
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
 
