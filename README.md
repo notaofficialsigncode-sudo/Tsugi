@@ -111,4 +111,3 @@ open source — MIT license. PRs welcome especially for:
 
 ---
 
-*built by Bhupesh L D (Renji) · github.com/dev-bhupesh*
