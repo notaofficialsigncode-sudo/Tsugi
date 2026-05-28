@@ -1,7 +1,8 @@
 services:
-  # FastAPI web service
+  # FastAPI web service (FREE)
   - type: web
     name: tsugi-api
+    plan: free
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
@@ -18,30 +19,31 @@ services:
       - key: FIREBASE_CREDENTIALS
         sync: false
 
-  # Celery background worker
-  - type: worker
-    name: tsugi-worker
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A worker.tasks worker --loglevel=info
-    envVars:
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_SERVICE_KEY
-        sync: false
-      - key: REDIS_URL
-        fromService:
-          name: tsugi-redis
-          type: redis
-          property: connectionString
+  # Celery background worker (PAID - COMMENTED OUT)
+  # - type: worker
+  #   name: tsugi-worker
+  #   runtime: python
+  #   buildCommand: pip install -r requirements.txt
+  #   startCommand: celery -A worker.tasks worker --loglevel=info
+  #   envVars:
+  #     - key: SUPABASE_URL
+  #       sync: false
+  #     - key: SUPABASE_SERVICE_KEY
+  #       sync: false
+  #     - key: REDIS_URL
+  #       fromService:
+  #         name: tsugi-redis
+  #         type: redis
+  #         property: connectionString
 
-  # Celery beat scheduler
-  - type: worker
-    name: tsugi-beat
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A worker.tasks beat --loglevel=info
-  # Redis
+  # Celery beat scheduler (PAID - COMMENTED OUT)
+  # - type: worker
+  #   name: tsugi-beat
+  #   runtime: python
+  #   buildCommand: pip install -r requirements.txt
+  #   startCommand: celery -A worker.tasks beat --loglevel=info
+
+  # Redis (FREE)
   - type: redis
     name: tsugi-redis
     plan: free
